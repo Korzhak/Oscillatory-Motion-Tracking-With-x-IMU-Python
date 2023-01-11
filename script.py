@@ -10,6 +10,9 @@
 
 import numpy as np
 import additional_func as af
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+from mpl_toolkits.mplot3d import Axes3D
 from scipy.signal import butter, filtfilt
 from ahrs.common import Quaternion
 from ahrs.filters import Mahony
@@ -100,3 +103,50 @@ lin_pos_hp = filtfilt(b, a, lin_pos.T).T
 # TODO: plotting data
 
 print(lin_pos_hp)
+
+# Create 6 DOF animation
+# plt.ion()
+# fig = plt.figure(figsize=(7, 7))
+# ax = fig.add_subplot(111, projection='3d')  # Axe3D object
+# point, = ax.plot(lin_pos_hp[0, 0], lin_pos_hp[0, 1], lin_pos_hp[0, 2], marker='o')
+# min_, max_ = np.min(np.min(lin_pos_hp, axis=0)), np.max(np.max(lin_pos_hp, axis=0))
+# ax.set_xlim(min_, max_)
+# ax.set_ylim(min_, max_)
+# ax.set_zlim(min_, max_)
+# ax.set_title("trajectory")
+# ax.set_xlabel("x position (m)")
+# ax.set_ylabel("y position (m)")
+# ax.set_zlabel("z position (m)")
+
+# plt.show()
+
+# for i in range(af.length(lin_pos_hp)):
+#     point.set_xdata()
+#     point.set_ydata(lin_pos_hp[i, 1])
+#     # point.set_3d_properties([lin_pos_hp[i, 2]])
+#     plt.pause(0.1)
+
+
+# def update(i):
+#     point.set_data(x=lin_pos_hp[i, 0], y=lin_pos_hp[i, 1])
+#     point.set_3d_properties(lin_pos_hp[i, 2])
+#     return
+#
+#
+# ani = animation.FuncAnimation(fig, update, frames=af.length(lin_pos_hp), interval=10, blit=True)
+# plt.show()
+
+####
+# fig = plt.figure(figsize=(7, 7))
+# ax = fig.add_subplot(111, projection='3d')  # Axe3D object
+# ax.plot(lin_pos_hp[:, 0], lin_pos_hp[:, 1], lin_pos_hp[:, 2])
+# min_, max_ = np.min(np.min(lin_pos_hp, axis=0)), np.max(np.max(lin_pos_hp, axis=0))
+# ax.set_xlim(min_, max_)
+# ax.set_ylim(min_, max_)
+# ax.set_zlim(min_, max_)
+# ax.set_title("trajectory")
+# ax.set_xlabel("x position (m)")
+# ax.set_ylabel("y position (m)")
+# ax.set_zlabel("z position (m)")
+plt.show()
+
