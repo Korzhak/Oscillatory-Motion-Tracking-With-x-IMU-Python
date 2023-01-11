@@ -5,6 +5,8 @@ This project is realization of [Oscillatory-Motion-Tracking-With-x-IMU](https://
 I didn't make AHRS Mahony filter. I am using the existing [ahrs](https://github.com/Mayitzin/ahrs) library.
 It contains class of Mahony filter and class for working with Quaternions.
 
+`ximu_python_library` was taken from [Gait-Tracking-With-x-IMU-Python](https://github.com/daehwa/Gait-Tracking-With-x-IMU-Python) project.
+
 ## Installation
 
 For using this code you need to clone repo:
