@@ -57,9 +57,9 @@ for i in range(af.length(acc)):
 # TODO: plotting data
 
 # Calculate linear acceleration in Earth frame (subtracting gravity)
-lin_acc = tc_acc - np.array([np.zeros(af.length(tc_acc), 1),
-                             np.zeros(af.length(tc_acc), 1),
-                             np.ones(af.length(tc_acc), 1)])
+lin_acc = tc_acc - np.array([np.zeros(af.length(tc_acc)),
+                             np.zeros(af.length(tc_acc)),
+                             np.ones(af.length(tc_acc))]).T
 
 lin_acc *= 9.81  # convert from 'g' to m/s^2
 
@@ -79,7 +79,7 @@ for i in range(1, af.length(lin_acc)):
 order = 1
 filter_cut_off = 0.1
 [b, a] = butter(order, (2*filter_cut_off)/sample_rate, 'high')
-lin_vel_hp = filtfilt(b, a, lin_vel)
+lin_vel_hp = filtfilt(b, a, lin_vel.T).T
 
 # Plot
 # TODO: plotting data
@@ -93,4 +93,10 @@ for i in range(1, af.length(lin_vel_hp)):
 # Plot
 # TODO: plotting data
 
+# High-pass filter linear position to remove drift
+lin_pos_hp = filtfilt(b, a, lin_pos.T).T
 
+# Plot
+# TODO: plotting data
+
+print(lin_pos_hp)
