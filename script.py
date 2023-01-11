@@ -1,8 +1,8 @@
 # encoding: utf-8
 #
-#                    Oscillatory-Motion-Tracking-Python
+#                    Oscillatory-Motion-Tracking-With-x-IMU-Python
 # This project is realization of Oscillatory-Motion-Tracking-With-x-IMU on python.
-# In this project I didn't use X-IMU sensor. I used MPU6050.
+# Link to origin code: https://github.com/xioTechnologies/Oscillatory-Motion-Tracking-With-x-IMU
 #  Date: 10.01.2023
 #  Author: Korzhak (GitHub)
 #  Ukraine
