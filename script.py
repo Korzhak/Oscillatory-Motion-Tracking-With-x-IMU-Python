@@ -1,16 +1,49 @@
-# This is a sample Python script.
+# encoding: utf-8
+#
+#                    Oscillatory-Motion-Tracking-Python
+# This project is realization of Oscillatory-Motion-Tracking-With-x-IMU on python.
+# In this project I didn't use X-IMU sensor. I used MPU6050.
+#  Date: 10.01.2023
+#  Author: Korzhak (GitHub)
+#  Ukraine
+#
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+import numpy as np
+import additional_func as af
+from ahrs.filters import Mahony
+from ahrs.common import Quaternion
+
+# Import data
+
+gyr = np.zeros((100, 3))  # 100 is amount of gyr data for each axes
+acc = np.zeros((100, 3))  # 100 is amount of gyr data for each axes
+
+Q = Quaternion(np.array([1., 0., 0., 0.]))     # AHRS calculated Quaternion
+Q_pr = Quaternion(np.array([1., 0., 0., 0.]))  # preview Quaternion
+
+# Plot
+
+# TODO: plotting data
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+# Process data through AHRS algorithm (calculate orientation)
+# See: http://www.x-io.co.uk/open-source-imu-and-ahrs-algorithms/
+
+R = np.zeros((3, 3, af.length(gyr)))  # rotation matrix describing sensor relative to Earth
+
+mahony_filter = Mahony(frequency=100)
+
+for i in range(af.length(gyr)):
+    Q = mahony_filter.updateIMU(Q_pr, gyr[i, :], acc[i, :])  # gyroscope units must be radians
+    R[:, :, i] = Quaternion(Q).to_DCM().T                    # transpose because ahrs provides Earth relative to sensor
+    Q_pr = Q
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+# Calculate 'tilt-compensated' accelerometer
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+tc_acc = np.zeros(acc.shape)  # accelerometer in Earth frame
+
+for i in range(af.length(acc)):
+    tc_acc[i, :] = R[:, :, i] @ acc[i, :].T  # product rotation matrix by transpose acceleration
+
+
