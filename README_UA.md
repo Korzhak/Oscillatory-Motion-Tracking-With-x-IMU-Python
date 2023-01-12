@@ -1,4 +1,4 @@
-[English](REAMDE.md) | **[Українська](README_UA.md)**
+[English](README.md) | **[Українська](README_UA.md)**
 
 # Oscillatory-Motion-Tracking-With-x-IMU-Python
 
