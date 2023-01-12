@@ -30,3 +30,9 @@ And finally, running the project:
 ```shell
 python script.py
 ```
+
+## Charts
+
+To view all charts follow [the link](CHARTS.md) (or push image below)
+
+[![Show all charts](screenshots/9_all_2D_charts.png)](CHARTS.md)
