@@ -33,6 +33,6 @@ python script.py
 
 ## Charts
 
-To view all charts follow [the link](CHARTS.md) (or push image below)
+To view all charts follow [the link](charts/CHARTS.md) (or push image below)
 
-[![Show all charts](screenshots/9_all_2D_charts.png)](CHARTS.md)
+[![Show all charts](charts/9_all_2D_charts.png)](charts/CHARTS.md)

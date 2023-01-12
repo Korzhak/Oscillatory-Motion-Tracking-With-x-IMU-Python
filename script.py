@@ -9,7 +9,6 @@
 #
 
 import numpy as np
-import additional_func as af
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from mpl_toolkits.mplot3d import Axes3D
@@ -17,6 +16,21 @@ from scipy.signal import butter, filtfilt
 from ahrs.common import Quaternion
 from ahrs.filters import Mahony
 from ximu_python_library import xIMUdataClass as xIMU
+
+
+# Additional functions
+
+def length(array: np.array) -> int:
+    """
+    Like a length() in Matlab.
+
+    :param array: numpy array.
+    :return: the length of the largest array dimension.
+    """
+    return max(array.shape)
+
+
+# Main settings
 
 file_path = 'logged_data/LoggedData'
 sample_rate = 256
@@ -62,11 +76,11 @@ plt.show(block=False)
 # See: http://www.x-io.co.uk/open-source-imu-and-ahrs-algorithms/
 
 Q = Quaternion(np.array([1., 0., 0., 0.]))  # AHRS calculated Quaternion
-R = np.zeros((3, 3, af.length(gyr)))  # rotation matrix describing sensor relative to Earth
+R = np.zeros((3, 3, length(gyr)))  # rotation matrix describing sensor relative to Earth
 
 attitude = Mahony(frequency=sample_rate)
 
-for i in range(af.length(gyr)):
+for i in range(length(gyr)):
     Q = attitude.updateIMU(Q, gyr[i, :], acc[i, :])  # gyroscope units must be radians
     R[:, :, i] = Quaternion(Q).to_DCM().T  # transpose because ahrs provides Earth relative to sensor
 
@@ -74,7 +88,7 @@ for i in range(af.length(gyr)):
 
 tc_acc = np.zeros(acc.shape)  # accelerometer in Earth frame
 
-for i in range(af.length(acc)):
+for i in range(length(acc)):
     tc_acc[i, :] = R[:, :, i] @ acc[i, :].T  # product rotation matrix by transpose acceleration
 
 # Plot
@@ -91,9 +105,9 @@ plt.show(block=False)
 
 # Calculate linear acceleration in Earth frame (subtracting gravity)
 
-lin_acc = tc_acc - np.array([np.zeros(af.length(tc_acc)),
-                             np.zeros(af.length(tc_acc)),
-                             np.ones(af.length(tc_acc))]).T
+lin_acc = tc_acc - np.array([np.zeros(length(tc_acc)),
+                             np.zeros(length(tc_acc)),
+                             np.ones(length(tc_acc))]).T
 
 lin_acc *= 9.81  # convert from 'g' to m/s^2
 
@@ -113,7 +127,7 @@ plt.show(block=False)
 
 lin_vel = np.zeros(lin_acc.shape)
 
-for i in range(1, af.length(lin_acc)):
+for i in range(1, length(lin_acc)):
     lin_vel[i, :] = lin_vel[i - 1, :] + lin_acc[i, :] * sample_period
 
 # Plot
@@ -151,7 +165,7 @@ plt.show(block=False)
 
 lin_pos = np.zeros(lin_vel_hp.shape)
 
-for i in range(1, af.length(lin_vel_hp)):
+for i in range(1, length(lin_vel_hp)):
     lin_pos[i, :] = lin_pos[i - 1, :] + lin_vel_hp[i, :] * sample_period
 
 # Plot
@@ -198,7 +212,7 @@ plt.show(block=False)
 #
 plt.show()
 #
-# for i in range(af.length(lin_pos_hp)):
+# for i in range(length(lin_pos_hp)):
 #     point.set_xdata([lin_pos_hp[i, 0]])
 #     point.set_ydata([lin_pos_hp[i, 1]])
 #     point.set_3d_properties([lin_pos_hp[i, 2]])
