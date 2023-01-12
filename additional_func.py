@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def length(array: np.array):
+def length(array: np.array) -> int:
     """
     Like a length() in Matlab.
 
