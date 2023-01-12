@@ -1,11 +1,15 @@
+**[English](REAMDE.md)** | [Українська](README_UA.md)
+
 # Oscillatory-Motion-Tracking-With-x-IMU-Python
 
-This project is realization of [Oscillatory-Motion-Tracking-With-x-IMU](https://github.com/xioTechnologies/Oscillatory-Motion-Tracking-With-x-IMU) on Python.
+Python realization of [Oscillatory-Motion-Tracking-With-x-IMU](https://github.com/xioTechnologies/Oscillatory-Motion-Tracking-With-x-IMU).
 
-I didn't make AHRS Mahony filter. I am using the existing [ahrs](https://github.com/Mayitzin/ahrs) library.
-It contains class of Mahony filter and class for working with Quaternions.
+Tracking movements of IMU sensor. Trajectory demonstration of movements.
+
+Use `Mahony filter` from [ahrs](https://github.com/Mayitzin/ahrs) library.
 
 `ximu_python_library` was taken from [Gait-Tracking-With-x-IMU-Python](https://github.com/daehwa/Gait-Tracking-With-x-IMU-Python) project.
+
 
 ## Installation
 
@@ -33,6 +37,6 @@ python script.py
 
 ## Charts
 
-To view all charts follow [the link](charts/CHARTS.md) (or push image below)
+To view all charts follow [the link](charts/CHARTS.md) or push image below:
 
 [![Show all charts](charts/9_all_2D_charts.png)](charts/CHARTS.md)
