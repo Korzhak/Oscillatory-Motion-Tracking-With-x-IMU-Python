@@ -1,4 +1,4 @@
-# encoding: utf-8
+# -*- coding: utf-8 -*-
 #
 #                    Oscillatory-Motion-Tracking-With-x-IMU-Python
 # This project is realization of Oscillatory-Motion-Tracking-With-x-IMU on python.
@@ -78,11 +78,11 @@ plt.show(block=False)
 Q = Quaternion(np.array([1., 0., 0., 0.]))  # AHRS calculated Quaternion
 R = np.zeros((3, 3, length(gyr)))  # rotation matrix describing sensor relative to Earth
 
-attitude = Mahony(frequency=sample_rate)
+attitude = Mahony(frequency=sample_rate, ki=0)
 
 for i in range(length(gyr)):
-    Q = attitude.updateIMU(Q, gyr[i, :], acc[i, :])  # gyroscope units must be radians
-    R[:, :, i] = Quaternion(Q).to_DCM().T  # transpose because ahrs provides Earth relative to sensor
+    Q = attitude.updateIMU(Q, gyr[i, :] * (np.pi/180), acc[i, :])  # gyroscope units must be radians
+    R[:, :, i] = Quaternion(Q).to_DCM()  # transpose because ahrs provides Earth relative to sensor
 
 # Calculate 'tilt-compensated' accelerometer
 
@@ -98,7 +98,7 @@ plt.plot(time, tc_acc[:, 0], c='r', linewidth=0.5)
 plt.plot(time, tc_acc[:, 1], c='g', linewidth=0.5)
 plt.plot(time, tc_acc[:, 2], c='b', linewidth=0.5)
 plt.legend(["x", "y", "z"])
-plt.title("Transpose acceleration")
+plt.title("'Tilt-compensated' accelerometer")
 plt.xlabel("time (s)")
 plt.ylabel("g")
 plt.show(block=False)
