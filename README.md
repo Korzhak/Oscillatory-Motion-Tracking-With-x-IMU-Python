@@ -29,13 +29,24 @@ virtualenv -p python3 venv
 pip install -r requirements.txt
 ```
 
-And finally, running the project:
+Running the script which calculate rotation matrix and position:
 
 ```shell
 python script.py
 ```
 
-## Charts
+Running the script for visualization of movements in 3D:
+
+```shell
+python SixDOFAnimation.py
+```
+
+
+## Visualization and charts
+
+| Python                           | MATLAB                                |
+|----------------------------------|---------------------------------------|
+|  ![](charts/SixDOFAnimation.gif) | ![](charts/SixDOFAnimationMatlab.gif) |
 
 To view all charts follow [the link](charts/CHARTS.md) or push image below:
 

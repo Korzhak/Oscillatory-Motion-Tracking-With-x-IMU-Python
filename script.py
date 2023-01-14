@@ -30,12 +30,12 @@ def length(array: np.array) -> int:
 # Main settings
 
 file_path = 'logged_data/LoggedData'
-sample_rate = 256
-sample_period = 1 / sample_rate
+sample_frequency = 256
+sample_period = 1 / sample_frequency
 
 # Import data
 
-xIMUdata = xIMU.xIMUdataClass(file_path, sr=sample_rate)
+xIMUdata = xIMU.xIMUdataClass(file_path, sr=sample_frequency)
 
 x_time = xIMUdata.CalInertialAndMagneticData.Time
 
@@ -74,13 +74,15 @@ plt.show(block=False)
 
 R = np.zeros((3, 3, length(gyr)))  # rotation matrix describing sensor relative to Earth
 
-ahrs = Mahony(sample_freq=sample_rate, ki_def=0)
+ahrs = Mahony(sample_freq=sample_frequency, ki_def=0)
 np.set_printoptions(suppress=True)
 
 for i in range(length(gyr)):
     ahrs.update_imu(gyr[i, :].copy() * (np.pi/180), acc[i, :].copy())  # gyroscope units must be radians
     R[:, :, i] = ahrs.Q_to_DCM()                         # transpose because ahrs provides Earth relative to sensor
 
+
+# Save rotation matrix for 3D Plot animation
 np.save("logged_data/rot_mat.npy", R)
 
 # Calculate 'tilt-compensated' accelerometer
@@ -145,7 +147,7 @@ plt.show(block=False)
 
 order = 1
 filter_cut_off = 0.1
-[b, a] = butter(order, (2 * filter_cut_off) / sample_rate, 'high')
+[b, a] = butter(order, (2 * filter_cut_off) / sample_frequency, 'high')
 lin_vel_hp = filtfilt(b, a, lin_vel.T).T
 
 # Plot
@@ -195,4 +197,5 @@ plt.xlabel("time (s)")
 plt.ylabel("m")
 plt.show()
 
+# Save position for 3D Plot animation
 np.save("logged_data/lin_pos_hp.npy", lin_pos_hp)

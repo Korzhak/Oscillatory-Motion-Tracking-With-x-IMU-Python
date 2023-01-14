@@ -1,3 +1,15 @@
+# -*- coding: utf-8 -*-
+#
+#              SixDOFAnimation
+# Implementation of 6D animation as in the
+# Oscillatory-Motion-Tracking-With-x-IMU project.
+# https://www.youtube.com/watch?v=SI1w9uaBw6Q
+# For high performance, the PyQtGraph library is used.
+#  Date: 14.01.2023
+#  Author: Korzhak (GitHub)
+#  Ukraine
+#
+
 import pyqtgraph as pg
 import numpy as np
 from pyqtgraph.Qt import QtCore, QtGui
@@ -5,12 +17,17 @@ import pyqtgraph.opengl as gl
 
 pg.mkQApp()
 
+# Make view in window
+
 view = gl.GLViewWidget()
-# view.setBackgroundColor("w")
 view.setCameraPosition(distance=0.6)
 view.show()
 
-line_len = 0.02
+# Set vectors length
+
+vector_len = 0.1
+
+# Making grid surfaces in 3 axes
 
 gx = gl.GLGridItem()
 gx.setSize(x=0.2, y=0.2, z=0.2)
@@ -32,18 +49,21 @@ gz.setSpacing(x=0.01, y=0.01, z=0.01)
 gz.translate(0, 0, -0.1)
 view.addItem(gz)
 
+# Making 3 vectors in space
+
 x_point1 = np.array([0, 0, 0])  # specify the (x, y, z) values of the first point in a tuple
-x_point2 = np.array([line_len, 0, 0])
+x_point2 = np.array([vector_len, 0, 0])
 
 y_point1 = np.array([0, 0, 0])  # specify the (x, y, z) values of the first point in a tuple
-y_point2 = np.array([0, line_len, 0])
+y_point2 = np.array([0, vector_len, 0])
 
 z_point1 = np.array([0, 0, 0])  # specify the (x, y, z) values of the first point in a tuple
-z_point2 = np.array([0, 0, line_len])  # specify the (x, y, z) values of the second point in a tuple
+z_point2 = np.array([0, 0, vector_len])  # specify the (x, y, z) values of the second point in a tuple
 
 x_axis = gl.GLLinePlotItem(pos=np.array([x_point1, x_point2]), width=3)
 y_axis = gl.GLLinePlotItem(pos=np.array([y_point1, y_point2]), width=3)
 z_axis = gl.GLLinePlotItem(pos=np.array([z_point1, z_point2]), width=3)
+
 x_axis.setData(color=(1, 0, 0, 1))
 y_axis.setData(color=(0, 1, 0, 1))
 z_axis.setData(color=(0, 0, 1, 1))
@@ -51,23 +71,20 @@ z_axis.setData(color=(0, 0, 1, 1))
 view.addItem(x_axis)
 view.addItem(y_axis)
 view.addItem(z_axis)
+
+# Load position data and rotation vectors data
+
 lin_pos_hp = np.load("logged_data/lin_pos_hp.npy")
 R = np.load("logged_data/rot_mat.npy")
 
 i = 0
-
-
-def length(array: np.array) -> int:
-    """
-    Like a length() in Matlab.
-
-    :param array: numpy array.
-    :return: the length of the largest array dimension.
-    """
-    return max(array.shape)
+step = 10
 
 
 def update():
+    """
+    Function which update position of vectors in space
+    """
     global x_axis
     global x_point1
     global x_point2
@@ -83,32 +100,36 @@ def update():
     global lin_pos_hp
     global R
     global i
-    if i <= length(lin_pos_hp):
+    if i <= max(lin_pos_hp.shape):
+
+        # Set X vector
         pos = lin_pos_hp[i, :].copy()
         a = pos.copy()
         b = R[:, 0, i].copy()
-        l = np.linalg.norm(b - a)
-        c = b * line_len / l
-        x_point1 = pos
-        x_point2 = pos + c
+        l = np.linalg.norm(b - a)    # length of vector
+        c = b * vector_len / l       # find new vector with length 'vector_len'
+        x_point1 = pos               # set start point
+        x_point2 = pos + c           # set end point
         x_axis.setData(pos=np.array([x_point1, x_point2]))
 
+        # Set Y vector
         a = pos.copy()
         b = R[:, 1, i].copy()
-        l = np.linalg.norm(b - a)
-        c = b * line_len / l
-        y_point1 = pos
-        y_point2 = pos + c
+        l = np.linalg.norm(b - a)    # length of vector
+        c = b * vector_len / l       # find new vector with length 'vector_len'
+        y_point1 = pos               # set start point
+        y_point2 = pos + c           # set end point
         y_axis.setData(pos=np.array([y_point1, y_point2]))
 
+        # Set Z vector
         a = pos.copy()
         b = R[:, 2, i].copy()
-        l = np.linalg.norm(b - a)
-        c = b * line_len / l
-        z_point1 = pos
-        z_point2 = pos + c
+        l = np.linalg.norm(b - a)    # length of vector
+        c = b * vector_len / l       # find new vector with length 'vector_len'
+        z_point1 = pos               # set start point
+        z_point2 = pos + c           # set end point
         z_axis.setData(pos=np.array([z_point1, z_point2]))
-        i += 10
+        i += step
 
 
 if __name__ == '__main__':
