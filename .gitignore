@@ -185,3 +185,4 @@ fabric.properties
 .idea
 
 test_arrays.py
+test_3d_chart.py

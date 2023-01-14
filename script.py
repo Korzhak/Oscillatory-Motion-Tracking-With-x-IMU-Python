@@ -10,12 +10,11 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.animation as animation
-from mpl_toolkits.mplot3d import Axes3D
 from scipy.signal import butter, filtfilt
 from Mahony.MahonyAHRS import Mahony
 from ximu_python_library import xIMUdataClass as xIMU
-import time
+
+
 # Additional functions
 
 def length(array: np.array) -> int:
@@ -50,25 +49,25 @@ acc = np.array([xIMUdata.CalInertialAndMagneticData.accelerometer[:, 0],
 
 # Plot
 
-# fig = plt.figure(figsize=(10, 5))
-# plt.plot(time, acc[:, 0], c='r', linewidth=0.5)
-# plt.plot(time, acc[:, 1], c='g', linewidth=0.5)
-# plt.plot(time, acc[:, 2], c='b', linewidth=0.5)
-# plt.legend(["x", "y", "z"])
-# plt.title("acceleration")
-# plt.xlabel("time (s)")
-# plt.ylabel("g")
-# plt.show(block=False)
-#
-# fig = plt.figure(figsize=(10, 5))
-# plt.plot(time, gyr[:, 0], c='r', linewidth=0.5)
-# plt.plot(time, gyr[:, 1], c='g', linewidth=0.5)
-# plt.plot(time, gyr[:, 2], c='b', linewidth=0.5)
-# plt.legend(["x", "y", "z"])
-# plt.title("gyroscope")
-# plt.xlabel("time (s)")
-# plt.ylabel("rad/sec")
-# plt.show(block=False)
+fig = plt.figure(figsize=(10, 5))
+plt.plot(x_time, acc[:, 0], c='r', linewidth=0.5)
+plt.plot(x_time, acc[:, 1], c='g', linewidth=0.5)
+plt.plot(x_time, acc[:, 2], c='b', linewidth=0.5)
+plt.legend(["x", "y", "z"])
+plt.title("acceleration")
+plt.xlabel("time (s)")
+plt.ylabel("g")
+plt.show(block=False)
+
+fig = plt.figure(figsize=(10, 5))
+plt.plot(x_time, gyr[:, 0], c='r', linewidth=0.5)
+plt.plot(x_time, gyr[:, 1], c='g', linewidth=0.5)
+plt.plot(x_time, gyr[:, 2], c='b', linewidth=0.5)
+plt.legend(["x", "y", "z"])
+plt.title("gyroscope")
+plt.xlabel("time (s)")
+plt.ylabel("rad/sec")
+plt.show(block=False)
 
 # Process data through AHRS algorithm (calculate orientation)
 # See: http://www.x-io.co.uk/open-source-imu-and-ahrs-algorithms/
@@ -82,6 +81,7 @@ for i in range(length(gyr)):
     ahrs.update_imu(gyr[i, :].copy() * (np.pi/180), acc[i, :].copy())  # gyroscope units must be radians
     R[:, :, i] = ahrs.Q_to_DCM()                         # transpose because ahrs provides Earth relative to sensor
 
+np.save("rot_mat.npy", R)
 
 # Calculate 'tilt-compensated' accelerometer
 
@@ -92,15 +92,15 @@ for i in range(length(acc)):
 
 # Plot
 
-# fig = plt.figure(figsize=(10, 5))
-# plt.plot(time, tc_acc[:, 0], c='r', linewidth=0.5)
-# plt.plot(time, tc_acc[:, 1], c='g', linewidth=0.5)
-# plt.plot(time, tc_acc[:, 2], c='b', linewidth=0.5)
-# plt.legend(["x", "y", "z"])
-# plt.title("'Tilt-compensated' accelerometer")
-# plt.xlabel("time (s)")
-# plt.ylabel("g")
-# plt.show(block=False)
+fig = plt.figure(figsize=(10, 5))
+plt.plot(x_time, tc_acc[:, 0], c='r', linewidth=0.5)
+plt.plot(x_time, tc_acc[:, 1], c='g', linewidth=0.5)
+plt.plot(x_time, tc_acc[:, 2], c='b', linewidth=0.5)
+plt.legend(["x", "y", "z"])
+plt.title("'Tilt-compensated' accelerometer")
+plt.xlabel("time (s)")
+plt.ylabel("g")
+plt.show(block=False)
 
 # Calculate linear acceleration in Earth frame (subtracting gravity)
 
@@ -112,15 +112,15 @@ lin_acc *= 9.81  # convert from 'g' to m/s^2
 
 # Plot
 
-# fig = plt.figure(figsize=(10, 5))
-# plt.plot(time, lin_acc[:, 0], c='r', linewidth=0.5)
-# plt.plot(time, lin_acc[:, 1], c='g', linewidth=0.5)
-# plt.plot(time, lin_acc[:, 2], c='b', linewidth=0.5)
-# plt.legend(["x", "y", "z"])
-# plt.title("Linear acceleration")
-# plt.xlabel("time (s)")
-# plt.ylabel("m/s^2")
-# plt.show(block=False)
+fig = plt.figure(figsize=(10, 5))
+plt.plot(x_time, lin_acc[:, 0], c='r', linewidth=0.5)
+plt.plot(x_time, lin_acc[:, 1], c='g', linewidth=0.5)
+plt.plot(x_time, lin_acc[:, 2], c='b', linewidth=0.5)
+plt.legend(["x", "y", "z"])
+plt.title("Linear acceleration")
+plt.xlabel("time (s)")
+plt.ylabel("m/s^2")
+plt.show(block=False)
 
 # Calculate linear velocity (integrate acceleration)
 
@@ -131,15 +131,15 @@ for i in range(1, length(lin_acc)):
 
 # Plot
 
-# fig = plt.figure(figsize=(10, 5))
-# plt.plot(time, lin_vel[:, 0], c='r', linewidth=0.5)
-# plt.plot(time, lin_vel[:, 1], c='g', linewidth=0.5)
-# plt.plot(time, lin_vel[:, 2], c='b', linewidth=0.5)
-# plt.legend(["x", "y", "z"])
-# plt.title("Linear velocity")
-# plt.xlabel("time (s)")
-# plt.ylabel("m/s")
-# plt.show(block=False)
+fig = plt.figure(figsize=(10, 5))
+plt.plot(x_time, lin_vel[:, 0], c='r', linewidth=0.5)
+plt.plot(x_time, lin_vel[:, 1], c='g', linewidth=0.5)
+plt.plot(x_time, lin_vel[:, 2], c='b', linewidth=0.5)
+plt.legend(["x", "y", "z"])
+plt.title("Linear velocity")
+plt.xlabel("time (s)")
+plt.ylabel("m/s")
+plt.show(block=False)
 
 # High-pass filter linear velocity to remove drift
 
@@ -150,15 +150,15 @@ lin_vel_hp = filtfilt(b, a, lin_vel.T).T
 
 # Plot
 
-# fig = plt.figure(figsize=(10, 5))
-# plt.plot(time, lin_vel_hp[:, 0], c='r', linewidth=0.5)
-# plt.plot(time, lin_vel_hp[:, 1], c='g', linewidth=0.5)
-# plt.plot(time, lin_vel_hp[:, 2], c='b', linewidth=0.5)
-# plt.legend(["x", "y", "z"])
-# plt.title("High-pass filtered linear velocity")
-# plt.xlabel("time (s)")
-# plt.ylabel("m/s")
-# plt.show(block=False)
+fig = plt.figure(figsize=(10, 5))
+plt.plot(x_time, lin_vel_hp[:, 0], c='r', linewidth=0.5)
+plt.plot(x_time, lin_vel_hp[:, 1], c='g', linewidth=0.5)
+plt.plot(x_time, lin_vel_hp[:, 2], c='b', linewidth=0.5)
+plt.legend(["x", "y", "z"])
+plt.title("High-pass filtered linear velocity")
+plt.xlabel("time (s)")
+plt.ylabel("m/s")
+plt.show(block=False)
 
 # Calculate linear position (integrate velocity)
 
@@ -169,15 +169,15 @@ for i in range(1, length(lin_vel_hp)):
 
 # Plot
 
-# fig = plt.figure(figsize=(10, 5))
-# plt.plot(time, lin_pos[:, 0], c='r', linewidth=0.5)
-# plt.plot(time, lin_pos[:, 1], c='g', linewidth=0.5)
-# plt.plot(time, lin_pos[:, 2], c='b', linewidth=0.5)
-# plt.legend(["x", "y", "z"])
-# plt.title("Linear position")
-# plt.xlabel("time (s)")
-# plt.ylabel("m")
-# plt.show(block=False)
+fig = plt.figure(figsize=(10, 5))
+plt.plot(x_time, lin_pos[:, 0], c='r', linewidth=0.5)
+plt.plot(x_time, lin_pos[:, 1], c='g', linewidth=0.5)
+plt.plot(x_time, lin_pos[:, 2], c='b', linewidth=0.5)
+plt.legend(["x", "y", "z"])
+plt.title("Linear position")
+plt.xlabel("time (s)")
+plt.ylabel("m")
+plt.show(block=False)
 
 # High-pass filter linear position to remove drift
 
@@ -185,36 +185,14 @@ lin_pos_hp = filtfilt(b, a, lin_pos.T).T
 
 # Plot
 
-# fig = plt.figure(figsize=(10, 5))
-# plt.plot(time, lin_pos_hp[:, 0], c='r', linewidth=0.5)
-# plt.plot(time, lin_pos_hp[:, 1], c='g', linewidth=0.5)
-# plt.plot(time, lin_pos_hp[:, 2], c='b', linewidth=0.5)
-# plt.legend(["x", "y", "z"])
-# plt.title("High-pass filtered linear position")
-# plt.xlabel("time (s)")
-# plt.ylabel("m")
-# plt.show(block=False)
+fig = plt.figure(figsize=(10, 5))
+plt.plot(x_time, lin_pos_hp[:, 0], c='r', linewidth=0.5)
+plt.plot(x_time, lin_pos_hp[:, 1], c='g', linewidth=0.5)
+plt.plot(x_time, lin_pos_hp[:, 2], c='b', linewidth=0.5)
+plt.legend(["x", "y", "z"])
+plt.title("High-pass filtered linear position")
+plt.xlabel("time (s)")
+plt.ylabel("m")
+plt.show()
 
-# Create 6 DOF animation
-plt.ion()
-fig = plt.figure(figsize=(7, 7))
-ax = fig.add_subplot(111, projection='3d')  # Axe3D object
-point, = ax.plot(lin_pos_hp[0, 0], lin_pos_hp[0, 1], lin_pos_hp[0, 2], marker='o')
-min_, max_ = np.min(np.min(lin_pos_hp, axis=0)), np.max(np.max(lin_pos_hp, axis=0))
-ax.set_xlim(min_, max_)
-ax.set_ylim(min_, max_)
-ax.set_zlim(min_, max_)
-ax.set_title("trajectory")
-ax.set_xlabel("x position (m)")
-ax.set_ylabel("y position (m)")
-ax.set_zlabel("z position (m)")
-#
-plt.show(block=False)
-#
-for i in range(length(lin_pos_hp)):
-    point.set_xdata([lin_pos_hp[i, 0]])
-    point.set_ydata([lin_pos_hp[i, 1]])
-    point.set_3d_properties([lin_pos_hp[i, 2]])
-    time.sleep(0.01)
-    # plt.pause(sample_period)
-
+np.save("lin_pos_hp.npy", lin_pos_hp)
