@@ -51,8 +51,8 @@ z_axis.setData(color=(0, 0, 1, 1))
 view.addItem(x_axis)
 view.addItem(y_axis)
 view.addItem(z_axis)
-lin_pos_hp = np.load("lin_pos_hp.npy")
-R = np.load("rot_mat.npy")
+lin_pos_hp = np.load("logged_data/lin_pos_hp.npy")
+R = np.load("logged_data/rot_mat.npy")
 
 i = 0
 

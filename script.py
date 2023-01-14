@@ -81,7 +81,7 @@ for i in range(length(gyr)):
     ahrs.update_imu(gyr[i, :].copy() * (np.pi/180), acc[i, :].copy())  # gyroscope units must be radians
     R[:, :, i] = ahrs.Q_to_DCM()                         # transpose because ahrs provides Earth relative to sensor
 
-np.save("rot_mat.npy", R)
+np.save("logged_data/rot_mat.npy", R)
 
 # Calculate 'tilt-compensated' accelerometer
 
@@ -195,4 +195,4 @@ plt.xlabel("time (s)")
 plt.ylabel("m")
 plt.show()
 
-np.save("lin_pos_hp.npy", lin_pos_hp)
+np.save("logged_data/lin_pos_hp.npy", lin_pos_hp)
