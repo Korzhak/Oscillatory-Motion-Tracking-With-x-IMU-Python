@@ -28,13 +28,23 @@ virtualenv -p python3 venv
 pip install -r requirements.txt
 ```
 
-І на сам кінець, запустити проєкт:
+Виконання скрипта, що розраховує позицію та матрицю обертання:
 
 ```shell
 python script.py
 ```
 
-## Візуалізація
+Виконання скрипта візуалізації руху в 3D:
+
+```shell
+python SixDOFAnimation.py
+```
+
+## Візуалізація та графіки
+
+| Python                           | MATLAB                                |
+|----------------------------------|---------------------------------------|
+|  ![](charts/SixDOFAnimation.gif) | ![](charts/SixDOFAnimationMatlab.gif) |
 
 Щоб переглянути всі графіки перейдіть за [посиланням](charts/CHARTS.md), або натисніть на зображення внизу:
 

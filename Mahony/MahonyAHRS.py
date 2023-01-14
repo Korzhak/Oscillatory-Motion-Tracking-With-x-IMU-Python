@@ -49,7 +49,7 @@ class Mahony:
              2.0 * (y * z - w * x)],
             [2.0 * (x * z - w * y), 2.0 * (w * x + y * z),
              1.0 - 2.0 * (x ** 2 + y ** 2)]])
-    
+
     def update_imu(self, g: np.array, a: np.array) -> np.array:
         """
         Фільтрування даних методом Магоні.
@@ -64,14 +64,13 @@ class Mahony:
         if a.sum() == 0:
             return self.Quaternion
 
-        norma = np.linalg.norm(a)
-        a /= norma
+        a /= np.linalg.norm(a)
 
         # Estimated direction of gravity and vector perpendicular to magnetic flux
         v = np.array([
             2 * (q[1] * q[3] - q[0] * q[2]),
             2 * (q[0] * q[1] + q[2] * q[3]),
-            q[0]**2 - q[1]**2 - q[2]**2 + q[3]**2
+            q[0] ** 2 - q[1] ** 2 - q[2] ** 2 + q[3] ** 2
         ])
 
         # Error is sum of cross product between estimated and measured direction of gravity
@@ -87,7 +86,6 @@ class Mahony:
         # Compute rate of change of quaternion
         q_dot = 0.5 * self.quaternion_multiply(q, np.array([0, g[0], g[1], g[2]]))
 
-        q += q_dot * self.sample_period
-
+        q = q + q_dot * self.sample_period
         self.Quaternion = q / np.linalg.norm(q)
         return self.Quaternion
