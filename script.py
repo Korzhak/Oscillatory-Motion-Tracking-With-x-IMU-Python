@@ -49,7 +49,7 @@ acc = np.array([xIMUdata.CalInertialAndMagneticData.accelerometer[:, 0],
 
 # Plot
 
-fig = plt.figure(figsize=(10, 5))
+fig = plt.figure(figsize=(7.8, 5))
 plt.plot(x_time, acc[:, 0], c='r', linewidth=0.5)
 plt.plot(x_time, acc[:, 1], c='g', linewidth=0.5)
 plt.plot(x_time, acc[:, 2], c='b', linewidth=0.5)
@@ -59,7 +59,7 @@ plt.xlabel("time (s)")
 plt.ylabel("g")
 plt.show(block=False)
 
-fig = plt.figure(figsize=(10, 5))
+fig = plt.figure(figsize=(7.8, 5))
 plt.plot(x_time, gyr[:, 0], c='r', linewidth=0.5)
 plt.plot(x_time, gyr[:, 1], c='g', linewidth=0.5)
 plt.plot(x_time, gyr[:, 2], c='b', linewidth=0.5)
@@ -94,7 +94,7 @@ for i in range(length(acc)):
 
 # Plot
 
-fig = plt.figure(figsize=(10, 5))
+fig = plt.figure(figsize=(7.8, 5))
 plt.plot(x_time, tc_acc[:, 0], c='r', linewidth=0.5)
 plt.plot(x_time, tc_acc[:, 1], c='g', linewidth=0.5)
 plt.plot(x_time, tc_acc[:, 2], c='b', linewidth=0.5)
@@ -114,7 +114,7 @@ lin_acc *= 9.81  # convert from 'g' to m/s^2
 
 # Plot
 
-fig = plt.figure(figsize=(10, 5))
+fig = plt.figure(figsize=(7.8, 5))
 plt.plot(x_time, lin_acc[:, 0], c='r', linewidth=0.5)
 plt.plot(x_time, lin_acc[:, 1], c='g', linewidth=0.5)
 plt.plot(x_time, lin_acc[:, 2], c='b', linewidth=0.5)
@@ -133,7 +133,7 @@ for i in range(1, length(lin_acc)):
 
 # Plot
 
-fig = plt.figure(figsize=(10, 5))
+fig = plt.figure(figsize=(7.8, 5))
 plt.plot(x_time, lin_vel[:, 0], c='r', linewidth=0.5)
 plt.plot(x_time, lin_vel[:, 1], c='g', linewidth=0.5)
 plt.plot(x_time, lin_vel[:, 2], c='b', linewidth=0.5)
@@ -152,7 +152,7 @@ lin_vel_hp = filtfilt(b, a, lin_vel.T).T
 
 # Plot
 
-fig = plt.figure(figsize=(10, 5))
+fig = plt.figure(figsize=(7.8, 5))
 plt.plot(x_time, lin_vel_hp[:, 0], c='r', linewidth=0.5)
 plt.plot(x_time, lin_vel_hp[:, 1], c='g', linewidth=0.5)
 plt.plot(x_time, lin_vel_hp[:, 2], c='b', linewidth=0.5)
@@ -171,7 +171,7 @@ for i in range(1, length(lin_vel_hp)):
 
 # Plot
 
-fig = plt.figure(figsize=(10, 5))
+fig = plt.figure(figsize=(7.8, 5))
 plt.plot(x_time, lin_pos[:, 0], c='r', linewidth=0.5)
 plt.plot(x_time, lin_pos[:, 1], c='g', linewidth=0.5)
 plt.plot(x_time, lin_pos[:, 2], c='b', linewidth=0.5)
@@ -187,7 +187,7 @@ lin_pos_hp = filtfilt(b, a, lin_pos.T).T
 
 # Plot
 
-fig = plt.figure(figsize=(10, 5))
+fig = plt.figure(figsize=(7.8, 5))
 plt.plot(x_time, lin_pos_hp[:, 0], c='r', linewidth=0.5)
 plt.plot(x_time, lin_pos_hp[:, 1], c='g', linewidth=0.5)
 plt.plot(x_time, lin_pos_hp[:, 2], c='b', linewidth=0.5)
