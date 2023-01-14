@@ -6,8 +6,6 @@ Python реалізація [Oscillatory-Motion-Tracking-With-x-IMU](https://git
 
 Відстежування рухів IMU давача. Побудова траєкторії руху.
 
-Використовується `фільтр Магоні` з бібліотеки [ahrs](https://github.com/Mayitzin/ahrs).
-
 `ximu_python_library` була взята з проекту [Gait-Tracking-With-x-IMU-Python](https://github.com/daehwa/Gait-Tracking-With-x-IMU-Python).
 
 ## Встановлення

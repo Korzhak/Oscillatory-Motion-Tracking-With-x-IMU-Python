@@ -6,8 +6,6 @@ Python realization of [Oscillatory-Motion-Tracking-With-x-IMU](https://github.co
 
 Tracking movements of IMU sensor. Trajectory demonstration of movements.
 
-Use `Mahony filter` from [ahrs](https://github.com/Mayitzin/ahrs) library.
-
 `ximu_python_library` was taken from [Gait-Tracking-With-x-IMU-Python](https://github.com/daehwa/Gait-Tracking-With-x-IMU-Python) project.
 
 

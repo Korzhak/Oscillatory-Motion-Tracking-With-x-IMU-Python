@@ -1,12 +1,11 @@
 """
-    Автор: X-IO (https://x-io.co.uk/)
-    Реалізація: Korzhak (GitHub)
-    Дата: 15.12.2022
+    Author: X-IO (https://x-io.co.uk/)
+    Code writer: Korzhak (GitHub)
+    Date: 15.12.2022
 
-    Модуль для фільтрування даних методом Магоні.
+    Filtering by Mahony method
 """
 
-from math import sqrt, atan2, asin
 import numpy as np
 
 GR = 9.81
@@ -14,13 +13,6 @@ GR = 9.81
 
 class Mahony:
     def __init__(self, sample_freq=100, kp_def=1., ki_def=0.0):
-        """
-        Ініціалізація.
-
-        :param sample_freq: частота оновлення даних (в ГЦ).
-        :param kp_def: TODO: дописати доку
-        :param ki_def: TODO: дописати доку
-        """
         self.kp = kp_def
         self.ki = ki_def
 
@@ -52,11 +44,11 @@ class Mahony:
 
     def update_imu(self, g: np.array, a: np.array) -> np.array:
         """
-        Фільтрування даних методом Магоні.
+        Filtering by Mahony method.
 
-        :param a:
-        :param g:
-        :return: Розрахований кватерніон (w, i, j, k).
+        :param g: Gyroscope data [wx, wy, wz]
+        :param a: Accelerometer data [ax, ay, az]
+        :return: Calculated quaternion np.array(w, i, j, k).
         """
 
         q = self.Quaternion.copy()
@@ -86,6 +78,6 @@ class Mahony:
         # Compute rate of change of quaternion
         q_dot = 0.5 * self.quaternion_multiply(q, np.array([0, g[0], g[1], g[2]]))
 
-        q = q + q_dot * self.sample_period
+        q += q_dot * self.sample_period
         self.Quaternion = q / np.linalg.norm(q)
         return self.Quaternion
