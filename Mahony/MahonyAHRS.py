@@ -1,6 +1,6 @@
 """
     Author: X-IO (https://x-io.co.uk/)
-    Code writer: Korzhak (GitHub)
+    Python implementer: Korzhak (GitHub)
     Date: 15.12.2022
 
     Filtering by Mahony method
