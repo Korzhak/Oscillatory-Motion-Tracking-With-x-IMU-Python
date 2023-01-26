@@ -78,7 +78,7 @@ ahrs = Mahony(sample_freq=sample_frequency, ki_def=0)
 np.set_printoptions(suppress=True)
 
 for i in range(length(gyr)):
-    ahrs.update_imu(gyr[i, :].copy() * (np.pi/180), acc[i, :].copy())  # gyroscope units must be radians
+    ahrs.update_imu(gyr[i, :] * (np.pi/180), acc[i, :])  # gyroscope units must be radians
     R[:, :, i] = ahrs.Q_to_DCM()                         # transpose because ahrs provides Earth relative to sensor
 
 
