@@ -1,11 +1,13 @@
 import os
 import sys
+
 this_dir = os.path.dirname(__file__)
 sys.path.append(this_dir)
 import CalInertialAndMagneticDataClass as calIM
 
+
 class xIMUdataClass():
-    def __init__(self, filename='', sr_type='InertialMagneticSampleRate', sr = 20000/3):
+    def __init__(self, filename='', sr_type='InertialMagneticSampleRate', sr=20000 / 3):
         self.FileNamePrefix = filename
         self.ErrorData = []
         self.CommandData = []

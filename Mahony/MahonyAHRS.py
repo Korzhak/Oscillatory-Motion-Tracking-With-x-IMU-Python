@@ -70,7 +70,7 @@ class Mahony:
         m /= np.linalg.norm(a)
 
         # Reference direction of Earth's magnetic feild
-        h = self.prod_q(q, self.prod_q(np.array([0] + m), self.conjugate_quat(q)))
+        h = self.prod_q(q, self.prod_q(np.array([0, m[0], m[1], m[2]]), self.conjugate_quat(q)))
         b = np.array([0, np.linalg.norm(h[1:3]), 0, h[3]])
 
         # Estimated direction of gravity and magnetic field
@@ -97,7 +97,7 @@ class Mahony:
         g += self.kp * e + self.ki * self.e_int
 
         # Compute rate of change of quaternion
-        q_dot = 0.5 * self.prod_q(q, np.array([0] + g))
+        q_dot = 0.5 * self.prod_q(q, np.array([0, g[0], g[1], g[2]]))
 
         # Integrate to yield quaternion
         q += q_dot * self.sample_period
@@ -141,7 +141,7 @@ class Mahony:
         g += self.kp * e + self.ki * self.e_int
 
         # Compute rate of change of quaternion
-        q_dot = 0.5 * self.prod_q(q, np.array([0] + g))
+        q_dot = 0.5 * self.prod_q(q, np.array([0, g[0], g[1], g[2]]))
 
         q += q_dot * self.sample_period
         self.Quaternion = q / np.linalg.norm(q)
