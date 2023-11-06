@@ -1,4 +1,4 @@
-packetNumb,gyrX,gyrY,gyrZ,accX,accY,accZ,magX,magY,magZ
+Packet number,Gyroscope X (deg/s),Gyroscope Y (deg/s),Gyroscope Z (deg/s),Accelerometer X (g),Accelerometer Y (g),Accelerometer Z (g),Magnetometer X (G),Magnetometer Y (G),Magnetometer Z (G)
 0,-0.125,-0.0625,0.125,-0.02880859,0.01660156,1.01709,15.99951,15.99951,15.11475
 2,-0.125,-0.25,0,0.002441406,-0.002441406,0.9736328,15.99951,15.99951,15.09375
 4,-0.0625,-0.1875,0,0.006347656,0.01660156,0.9892578,15.99951,15.99951,15.09375

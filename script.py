@@ -74,7 +74,7 @@ plt.show(block=False)
 
 R = np.zeros((3, 3, length(gyr)))  # rotation matrix describing sensor relative to Earth
 
-ahrs = Mahony(sample_freq=sample_frequency, ki_def=0)
+ahrs = Mahony(sample_freq=sample_frequency, kp_def=0, ki_def=0)
 np.set_printoptions(suppress=True)
 
 for i in range(length(gyr)):
